@@ -27,7 +27,7 @@ public class AtmosphereUtil {
 
     public static WebSocketListener getSocketLister(final Broadcaster topic) {
         WebSocketListener listener = listenerSockets.get(topic);
-        if(null == listener) {
+        if (null == listener) {
             listener = new WebSocketListener(
                     hazelcastSelector.get(), executorService, topic, listenerSockets);
             listenerSockets.putIfAbsent(topic, listener);

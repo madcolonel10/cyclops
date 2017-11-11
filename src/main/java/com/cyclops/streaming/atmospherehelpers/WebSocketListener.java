@@ -37,7 +37,7 @@ public class WebSocketListener extends WebSocketEventListenerAdapter {
     @Override
     public void onSuspend(AtmosphereResourceEvent event) {
         super.onSuspend(event);
-        if(null == listenerId) {
+        if (null == listenerId) {
             ITopic<Event> distTopic = hazelcastInstance.getTopic(topic.getID());
             listenerId = distTopic.addMessageListener(new TopicListener(topic, executorService));
             logger.info("Subscribed");
@@ -47,7 +47,7 @@ public class WebSocketListener extends WebSocketEventListenerAdapter {
     @Override
     public void onBroadcast(AtmosphereResourceEvent event) {
         super.onBroadcast(event);
-        logger.debug("BROADCASTING**** " + ((Event)event.getMessage()).getMessage());
+        logger.debug("BROADCASTING**** " + ((Event) event.getMessage()).getMessage());
     }
 
     @Override
@@ -55,7 +55,7 @@ public class WebSocketListener extends WebSocketEventListenerAdapter {
         super.onDisconnect(event);
         ITopic<Event> distTopic = hazelcastInstance.getTopic(topic.getID());
         distTopic.removeMessageListener(listenerId);
-        if(listenerSockets.remove(topic, this)) {
+        if (listenerSockets.remove(topic, this)) {
             logger.info("UnSubscribed");
         }
     }

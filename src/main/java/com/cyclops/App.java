@@ -13,6 +13,7 @@ import java.net.UnknownHostException;
  */
 public class App {
     private static final Logger logger = LoggerFactory.getLogger(App.class.getSimpleName());
+
     public static void main(String args[]) {
         try {
             final String hostName = InetAddress.getLocalHost().getCanonicalHostName();

@@ -28,9 +28,9 @@ public class TopicInfoResource {
     @Path("/topics")
     public Response getAllTopics() {
         Set<String> topics = new HashSet<String>();
-        for(HazelcastInstance instance: Hazelcast.getAllHazelcastInstances()) {
-            for(DistributedObject distObject : instance.getDistributedObjects()) {
-                if(distObject.getServiceName().endsWith("topicService")) {
+        for (HazelcastInstance instance : Hazelcast.getAllHazelcastInstances()) {
+            for (DistributedObject distObject : instance.getDistributedObjects()) {
+                if (distObject.getServiceName().endsWith("topicService")) {
                     topics.add(distObject.getName());
                 }
             }
@@ -43,16 +43,16 @@ public class TopicInfoResource {
     public Response getTopicDetail(@PathParam("topic") final String topic) {
         Set<String> topics = new HashSet<String>();
         Set<HazelcastInstance> instances = Hazelcast.getAllHazelcastInstances();
-        for(HazelcastInstance instance: instances) {
-            for(DistributedObject distObject : instance.getDistributedObjects()) {
-                if(distObject.getServiceName().endsWith("topicService")) {
+        for (HazelcastInstance instance : instances) {
+            for (DistributedObject distObject : instance.getDistributedObjects()) {
+                if (distObject.getServiceName().endsWith("topicService")) {
                     topics.add(distObject.getName());
                 }
             }
         }
-        HashMap<String,LocalTopicStats> stats = new HashMap<String, LocalTopicStats>();
-        if(topics.contains(topic)) {
-            for(HazelcastInstance instance: instances) {
+        HashMap<String, LocalTopicStats> stats = new HashMap<String, LocalTopicStats>();
+        if (topics.contains(topic)) {
+            for (HazelcastInstance instance : instances) {
                 LocalTopicStats topicStats = instance.getTopic(topic).getLocalTopicStats();
                 stats.put(instance.getName(), topicStats);
             }

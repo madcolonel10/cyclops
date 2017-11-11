@@ -48,9 +48,9 @@ public class CyclopsService extends Service<CyclopsConfiguration> {
     void initializeAtmosphere(CyclopsConfiguration configuration, Environment environment) {
         AtmosphereServlet atmosphereServlet = new AtmosphereServlet();
         atmosphereServlet.framework().addInitParameter("com.sun.jersey.config.property.packages",
-                                                            NotificationResource.class.getPackage().getName());
+                NotificationResource.class.getPackage().getName());
         atmosphereServlet.framework().addInitParameter("org.atmosphere.websocket.messageContentType",
-                                                            MediaType.APPLICATION_JSON);
+                MediaType.APPLICATION_JSON);
         environment.addServlet(atmosphereServlet, "/cyclops/notify/*");
     }
 
@@ -60,13 +60,13 @@ public class CyclopsService extends Service<CyclopsConfiguration> {
         ArrayList<HazelcastInstance> hazelcastInstances
                 = new ArrayList<HazelcastInstance>(clusterConfig.getNumMembersPerNode());
         ArrayList<TopicPublisher> publishers = new ArrayList<TopicPublisher>(clusterConfig.getNumMembersPerNode());
-        for(int i = 0; i < clusterConfig.getNumMembersPerNode(); i++) {
+        for (int i = 0; i < clusterConfig.getNumMembersPerNode(); i++) {
             Config hzConfig = new Config();
             hzConfig.getGroupConfig().setName(clusterConfig.getName());
             hzConfig.setInstanceName(String.format("%s-%d", hostName, System.currentTimeMillis()));
-            if(clusterConfig.isDisableMulticast()) {
+            if (clusterConfig.isDisableMulticast()) {
                 hzConfig.getNetworkConfig().getJoin().getMulticastConfig().setEnabled(false);
-                for(String member: clusterConfig.getMembers()) {
+                for (String member : clusterConfig.getMembers()) {
                     hzConfig.getNetworkConfig().getJoin().getTcpIpConfig().addMember(member);
                 }
                 hzConfig.getNetworkConfig().getJoin().getTcpIpConfig().setEnabled(true);
@@ -82,7 +82,7 @@ public class CyclopsService extends Service<CyclopsConfiguration> {
         environment.addResource(publisherResource);
         environment.addResource(new TopicInfoResource());
         environment.addHealthCheck(new HealthCheck());
-        AtmosphereUtil.init(hazelcastInstances, environment.managedExecutorService("streamer", 10 ,10, 1, TimeUnit.SECONDS));
+        AtmosphereUtil.init(hazelcastInstances, environment.managedExecutorService("streamer", 10, 10, 1, TimeUnit.SECONDS));
         //environment.addResource(new NotificationResource());
         //environment.managedExecutorService()
         environment.addFilter(CrossOriginFilter.class, "/*");

@@ -29,7 +29,7 @@ public class EventPublisherResource {
     @POST
     @Path("/{topic}")
     public Response publish(@Context HttpServletRequest request,
-                        @PathParam("topic")final String topic, final String message) {
+                            @PathParam("topic") final String topic, final String message) {
         publisherSelector.get().publish(topic, new Event(request.getRemoteAddr(), message));
         return Response.ok().build();
     }

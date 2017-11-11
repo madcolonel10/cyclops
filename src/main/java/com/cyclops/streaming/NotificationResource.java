@@ -33,14 +33,14 @@ public class NotificationResource {
     public SuspendResponse<Event> subscribe(@PathParam("topic") Broadcaster topic) {
         //final Broadcaster topic = BroadcasterFactory.getDefault().lookup("/" + topicName, true);
         WebSocketListener listener = AtmosphereUtil.getSocketLister(topic);
-        if(null == listener) {
-        logger.error("MF is null :(");
+        if (null == listener) {
+            logger.error("MF is null :(");
         }
         return new SuspendResponse.SuspendResponseBuilder<Event>()
-                    .broadcaster(topic)
-                    .outputComments(true)
-                    .addListener(listener)
-                    .build();
+                .broadcaster(topic)
+                .outputComments(true)
+                .addListener(listener)
+                .build();
     }
 
 }
